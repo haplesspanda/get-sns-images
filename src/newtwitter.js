@@ -1,9 +1,14 @@
+'use strict';
+import {createTextArea, hasTextArea} from './common';
+
+const photoLinkSelector = 'a[href*="/photo/"]';
+
 (function newTwitterExecFn() {
   function addLinksToPage() {
     const streamItems = [...document.querySelectorAll("article")];
     
     // Filter out sponsored stuff that gets ad-blocked
-    const actualTweets = streamItems.filter(streamItem => streamItem.querySelector('a[dir="auto"]'));
+    const actualTweets = streamItems.filter(streamItem => streamItem.querySelector(photoLinkSelector));
     
     
     const structuredItems = actualTweets.map(streamItem => {
@@ -29,8 +34,8 @@
         return href.toString();
       });
 
-      // Get "media_tags" or "retweets" link and prune the suffix
-      const permalinkPath = streamItem.querySelector('a[dir="auto"]').href.replace(/\/media_tags$/, '').replace(/\/retweets$/, '');
+      const firstPhotoLink = streamItem.querySelector(photoLinkSelector);
+      const permalinkPath = firstPhotoLink.href.replace(/\/photo\/.*$/, '');
       const urlToTweet = permalinkPath;
       result.tweetUrl = urlToTweet;
       result.streamItem = streamItem;
@@ -54,31 +59,18 @@
       return result;
     });
 
-    const formattedItems = structuredItems.map(structuredItem => {
-      let result = `\`${structuredItem.date}\`\n<${structuredItem.tweetUrl}>\n`;
-      structuredItem.imageUrls.forEach(imageUrl => {
-        result += imageUrl + '\n';
-      });
-      
+    const formattedItems = structuredItems.map(structuredItem => {      
       const textAreaContainer = structuredItem.streamItem.parentElement;
 
-      if (!textAreaContainer.querySelector('textarea') && structuredItem.imageUrls.length > 0) {
-        const textArea = document.createElement('textarea');
+      if (!hasTextArea(textAreaContainer) && structuredItem.imageUrls.length > 0) {
+        const textArea = createTextArea(structuredItem.date, structuredItem.tweetUrl, structuredItem.imageUrls);
         textAreaContainer.appendChild(textArea);
-        textArea.value = result;
-        textArea.style.width = '100%';
-        textArea.style.height = '100px';
-        textArea.style.border = '3px solid red';
-        textArea.style['box-sizing'] = 'border-box';
       }
-
-      return result;
     });
-    return formattedItems;
   }
   
   addLinksToPage();
   
-  // TODO: maybe do this with 
+  // TODO: maybe do this with MutationObserver
   setInterval(addLinksToPage, 1000);
 })();

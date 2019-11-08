@@ -1,7 +1,7 @@
-(function instagramExecFn() {
-  const textareaClass = 'image-link-textarea'; // TODO: commonize this to other sites too
-  const textareaSelector = `textarea.${textareaClass}`;
-  
+'use strict';
+import {createTextArea, getTextArea, hasTextArea} from './common';
+
+(function instagramExecFn() {  
   function appendImagesAndAdvance() {
     const srcs = [];
 
@@ -15,20 +15,15 @@
    
     const newSrcs = [`\`${formattedDateString}\``, `<${window.location.href}>`].concat(Array.from(context.querySelectorAll('img[srcset]')).map(image => image.src));
         
-    if (!context.querySelector(textareaSelector)) {
-      const textArea = document.createElement('textarea');
-      textArea.classList.add(textareaClass);
-      textArea.style.border = '3px solid red';
-      textArea.style.flex = '0 0 300px';
-      textArea.style.width = '100%';
-      textArea.style['box-sizing'] = 'border-box';
+    if (!hasTextArea(context)) {
+      const textArea = createTextArea(formattedDateString, window.location.href, [], '300px');
       
       const container = context === document ? document.querySelector('article').parentElement : context;
       container.appendChild(textArea);
     }
-    
-    const textArea = context.querySelector(textareaSelector);
-    const oldSrcs = textArea.value.split('\n');
+
+    const textArea = getTextArea(context);
+    const oldSrcs = textArea.value.split('\n').filter(src => src);
     newSrcs.forEach(newSrc => {
       if (!oldSrcs.includes(newSrc)) {
         oldSrcs.push(newSrc);

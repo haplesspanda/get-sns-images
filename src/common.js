@@ -1,17 +1,27 @@
-// TODO: Doesn't work because haven't figured out modularizing yet.
+const textAreaClass = 'image-link-textarea';
+const textAreaSelector = `textarea.${textAreaClass}`;
 
-export function createTextArea(date, url, imageUrls) {
-  let result = `\`${structuredItem.date}\`\n<${structuredItem.tweetUrl}>\n`;
-  structuredItem.imageUrls.forEach(imageUrl => {
+export function createTextArea(date, url, imageUrls, opt_height) {
+  let result = `\`${date}\`\n<${url}>\n`;
+  imageUrls.forEach(imageUrl => {
     result += imageUrl + '\n';
   });
   
   const textArea = document.createElement('textarea');
+  textArea.classList.add(textAreaClass);
   textArea.value = result;
   textArea.style.width = '100%';
-  textArea.style.height = '100px';
+  textArea.style.height = opt_height || '100px';
   textArea.style.border = '3px solid red';
   textArea.style['box-sizing'] = 'border-box';
 
-  return result;
+  return textArea;
+}
+
+export function getTextArea(node) {
+  return node.querySelector(textAreaSelector);
+}
+
+export function hasTextArea(node) {
+  return !!getTextArea(node);
 }

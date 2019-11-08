@@ -1,5 +1,5 @@
-// 'use strict';
-// import {createTextArea} from './common';
+'use strict';
+import {createTextArea, hasTextArea} from './common';
 
 (function oldTwitterExecFn() {
   const streamItems = [...document.querySelectorAll('.permalink-tweet-container'), ...document.querySelectorAll("li.stream-item")];
@@ -25,28 +25,9 @@
   });
 
   const formattedItems = structuredItems.map(structuredItem => {
-    // if (!structuredItem.streamItem.querySelector('textarea') && structuredItem.imageUrls.length > 0) {
-      // const textArea = createTextArea(structuredItem.date, structuredItem.tweetUrl, structuredItem.imageUrls);
-      // structuredItem.streamItem.appendChild(textArea);      
-    // }
-    
-    let result = `\`${structuredItem.date}\`\n<${structuredItem.tweetUrl}>\n`;
-    structuredItem.imageUrls.forEach(imageUrl => {
-      result += imageUrl + '\n';
-    });
-
-    if (!structuredItem.streamItem.querySelector('textarea') && structuredItem.imageUrls.length > 0) {
-      const textArea = document.createElement('textarea');
+    if (!hasTextArea(structuredItem.streamItem) && structuredItem.imageUrls.length > 0) {
+      const textArea = createTextArea(structuredItem.date, structuredItem.tweetUrl, structuredItem.imageUrls);
       structuredItem.streamItem.appendChild(textArea);
-      textArea.value = result;
-      textArea.style.width = '100%';
-      textArea.style.height = '100px';
-      textArea.style.border = '3px solid red';
-      textArea.style['box-sizing'] = 'border-box';
     }
-
-    return result;
   });
-  return formattedItems;
 })();
-
