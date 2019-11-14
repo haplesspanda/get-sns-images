@@ -25,3 +25,9 @@ export function getTextArea(node) {
 export function hasTextArea(node) {
   return !!getTextArea(node);
 }
+
+export function formatDate(datetime) {
+  const dateString = new Date(datetime).toLocaleDateString('ko', {timeZone: 'Asia/Seoul', year: '2-digit', month: '2-digit', day: '2-digit'});
+  const formattedDateString = dateString.replace(/\./g, '').replace(/ /g, '');  // TODO: Not sure why this doesn't work in one pass.
+  return formattedDateString;
+}

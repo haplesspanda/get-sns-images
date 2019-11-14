@@ -1,5 +1,5 @@
 'use strict';
-import {createTextArea, getTextArea, hasTextArea} from './common';
+import {createTextArea, formatDate, getTextArea, hasTextArea} from './common';
 
 (function instagramExecFn() {  
   function appendImagesAndAdvance() {
@@ -10,8 +10,7 @@ import {createTextArea, getTextArea, hasTextArea} from './common';
     const context = dialogArticle || document;  
     
     const time = article.querySelector('a time').getAttribute('datetime');
-    const dateString = new Date(time).toLocaleDateString('ko', {timeZone: 'Asia/Seoul', year: '2-digit', month: '2-digit', day: '2-digit'});
-    const formattedDateString = dateString.replace(/\./g, '').replace(/ /g, '');  // TODO: Not sure why this doesn't work in one pass. Also commonize.
+    const formattedDateString = formatDate(time);
    
     const newSrcs = [`\`${formattedDateString}\``, `<${window.location.href}>`].concat(Array.from(context.querySelectorAll('img[srcset]')).map(image => image.src));
         

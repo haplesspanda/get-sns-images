@@ -1,11 +1,27 @@
 {
   "name": "get-sns-images",
-  "version": "0.0.0.3",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Chrome extension to easily get SNS images for updating KPOP discords.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
   "private": true,
   "devDependencies": {
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "main": "background.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haplesspanda/get-sns-images.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haplesspanda/get-sns-images/issues"
+  },
+  "homepage": "https://github.com/haplesspanda/get-sns-images#readme"
 }
