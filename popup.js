@@ -1,6 +1,7 @@
 const BUTTONS = [
   {buttonId: 'getOldTwitterImages', file: 'dist/oldtwitter.js'},
   {buttonId: 'getNewTwitterImages', file: 'dist/newtwitter.js'},
+  {buttonId: 'getTweetDeckImages', file: 'dist/tweetdeck.js'},
   {buttonId: 'getInstagramImages', file: 'dist/instagram.js'},
   {buttonId: 'getTistoryImages', file: 'dist/tistory.js'},
 ];

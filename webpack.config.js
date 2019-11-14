@@ -6,6 +6,7 @@ module.exports = {
     newtwitter: './src/newtwitter.js',
     instagram: './src/instagram.js',
     tistory: './src/tistory.js',
+    tweetdeck: './src/tweetdeck.js',
   },
   output: {
     filename: '[name].js',
