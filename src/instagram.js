@@ -29,7 +29,7 @@ import {createTextArea, formatDate, hasTextArea} from './common';
   goToStart();
   
   function appendImagesAndAdvance() {
-    const newSrcs = Array.from(context.querySelectorAll('img[srcset]')).map(image => image.src);
+    const newSrcs = Array.from(context.querySelectorAll('img[srcset], video')).map(image => image.src);
     newSrcs.forEach(newSrc => {
       if (!srcs.includes(newSrc)) {
         srcs.push(newSrc);
