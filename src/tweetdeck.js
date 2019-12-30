@@ -7,13 +7,28 @@ import {createTextArea, formatDate, hasTextArea} from './common';
     const result = {};
     
     const images = streamItem.querySelectorAll('a.js-media-image-link');
-    const filteredImages = [...images].filter(image => image.style['background-image'].includes('/media/'));
+    const filteredImages = [...images].filter(image => {
+      const backgroundImage = image.style['background-image'];
+      return backgroundImage.includes('/media/') || backgroundImage.includes('ext_tw_video_thumb');
+    });
     result.imageUrls = [...filteredImages].map(image => {
       const lowResImageUri = image.style['background-image'].replace(/^url\("/, "").replace(/"\)$/, "");
-      const url = new URL(lowResImageUri);
-      url.searchParams.set('name', 'orig');
-      return url.toString();
+      if (lowResImageUri.includes('ext_tw_video_thumb')) {
+        // Twitter video - just return the t.co link for smallest embed.
+        return image.href;
+      } else {
+        // Normal image.
+        const url = new URL(lowResImageUri);
+        url.searchParams.set('name', 'orig');
+        return url.toString();
+      }
     });
+    
+    // Handle gifs if we couldn't find any images.
+    if (result.imageUrls.length === 0) {
+      const videos = streamItem.querySelectorAll('video');
+      result.imageUrls = [...videos].map(video => video.src);
+    }
 
     const urlToTweet = streamItem.querySelector('time a').getAttribute('href');
     result.tweetUrl = urlToTweet;
