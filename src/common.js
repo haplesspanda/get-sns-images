@@ -38,6 +38,7 @@ export function createTextArea(date, url, imageUrls, opt_height) {
   copyButton.innerText = 'Copy';
   copyButton.style.flex = '1';
   buttonContainer.appendChild(copyButton);
+  // TODO: Should also handle keyboard events
   copyButton.onclick = () => {
     textArea.select();
     document.execCommand('copy');
@@ -47,6 +48,7 @@ export function createTextArea(date, url, imageUrls, opt_height) {
   openButton.innerText = 'Open all';  
   openButton.style.flex = '1';
   buttonContainer.appendChild(openButton);
+  // TODO: Should also handle keyboard events
   openButton.onclick = () => {
     imageUrls.forEach(imageUrl => {
       window.open(imageUrl);
