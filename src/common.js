@@ -18,12 +18,8 @@ export function createTextArea(date, url, imageUrls, opt_height) {
   return textArea;
 }
 
-export function getTextArea(node) {
-  return node.querySelector(textAreaSelector);
-}
-
 export function hasTextArea(node) {
-  return !!getTextArea(node);
+  return !!node.querySelector(textAreaSelector);
 }
 
 export function formatDate(datetime) {

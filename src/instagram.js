@@ -1,35 +1,40 @@
 'use strict';
-import {createTextArea, formatDate, getTextArea, hasTextArea} from './common';
+import {createTextArea, formatDate, hasTextArea} from './common';
 
-(function instagramExecFn() {  
-  function appendImagesAndAdvance() {
-    const srcs = [];
-
-    const article = document.querySelector('div[role="dialog"] article') || document.querySelector('main[role="main"] article');
-    const dialogArticle = article.parentElement;
-    const context = dialogArticle || document;  
-    
-    const time = article.querySelector('a time').getAttribute('datetime');
-    const formattedDateString = formatDate(time);
-   
-    const newSrcs = [`\`${formattedDateString}\``, `<${window.location.href}>`].concat(Array.from(context.querySelectorAll('img[srcset]')).map(image => image.src));
-        
-    if (!hasTextArea(context)) {
-      const textArea = createTextArea(formattedDateString, window.location.href, [], '300px');
-      
-      const container = context === document ? document.querySelector('article').parentElement : context;
-      container.appendChild(textArea);
+(function instagramExecFn() {
+  const article = document.querySelector('div[role="dialog"] article') || document.querySelector('main[role="main"] article');
+  const dialogArticle = article.parentElement;
+  const context = dialogArticle || document;  
+  
+  const time = article.querySelector('a time').getAttribute('datetime');
+  const formattedDateString = formatDate(time);    
+  const permalink = window.location.href;  
+  const srcs = [];
+  
+  // 1) Go back to first image.
+  // 2) Advance and add images to list of srcs.
+  // 3) Create and add textarea with all srcs.
+  
+  function goToStart() {
+    const previousButtonIcon = context.querySelector('button .coreSpriteLeftChevron');
+    const previousButton = previousButtonIcon && previousButtonIcon.parentElement;
+    if (previousButton) {
+      previousButton.click();
+      setTimeout(goToStart, 0);
+    } else {
+      appendImagesAndAdvance();
     }
-
-    const textArea = getTextArea(context);
-    const oldSrcs = textArea.value.split('\n').filter(src => src);
+  }
+  
+  goToStart();
+  
+  function appendImagesAndAdvance() {
+    const newSrcs = Array.from(context.querySelectorAll('img[srcset]')).map(image => image.src);
     newSrcs.forEach(newSrc => {
-      if (!oldSrcs.includes(newSrc)) {
-        oldSrcs.push(newSrc);
+      if (!srcs.includes(newSrc)) {
+        srcs.push(newSrc);
       }
     });
-    
-    textArea.value = oldSrcs.join('\n');
     
     // If there are more images, go to the next one and run again.
     const nextButtonIcon = context.querySelector('button .coreSpriteRightChevron');
@@ -37,8 +42,14 @@ import {createTextArea, formatDate, getTextArea, hasTextArea} from './common';
     if (nextButton) {
       nextButton.click();
       setTimeout(appendImagesAndAdvance, 0);
+    } else {
+      // No more images - add textarea.
+      if (!hasTextArea(context)) {
+        const textArea = createTextArea(formattedDateString, permalink, srcs, '300px');
+        
+        const container = context === document ? document.querySelector('article').parentElement : context;
+        container.appendChild(textArea);
+      }
     }
   }
-  
-  appendImagesAndAdvance();
 })();
