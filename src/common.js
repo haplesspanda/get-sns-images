@@ -12,15 +12,48 @@ export function createTextArea(date, url, imageUrls, opt_height) {
     result += imageUrl + '\n';    
   });
   
+  const textAreaContainer = document.createElement('div');
+  textAreaContainer.style.width = '100%';
+  textAreaContainer.style.border = '3px solid red';
+  textAreaContainer.style['box-sizing'] = 'border-box';
+  
   const textArea = document.createElement('textarea');
   textArea.classList.add(textAreaClass);
-  textArea.value = result;
+  textArea.style.display = 'block';
   textArea.style.width = '100%';
-  textArea.style.height = opt_height || '100px';
-  textArea.style.border = '3px solid red';
   textArea.style['box-sizing'] = 'border-box';
+  textArea.value = result;
+  textArea.style.height = opt_height || '100px';
+  
+  textAreaContainer.appendChild(textArea);
+  
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.display = 'flex';
+  buttonContainer.style['flex-direction'] = 'row';
+  buttonContainer.style.width = '100%';
+  
+  textAreaContainer.appendChild(buttonContainer);
+  
+  const copyButton = document.createElement('button');
+  copyButton.innerText = 'Copy';
+  copyButton.style.flex = '1';
+  buttonContainer.appendChild(copyButton);
+  copyButton.onclick = () => {
+    textArea.select();
+    document.execCommand('copy');
+  };
+  
+  const openButton = document.createElement('button');
+  openButton.innerText = 'Open all';  
+  openButton.style.flex = '1';
+  buttonContainer.appendChild(openButton);
+  openButton.onclick = () => {
+    imageUrls.forEach(imageUrl => {
+      window.open(imageUrl);
+    });
+  };
 
-  return textArea;
+  return textAreaContainer;
 }
 
 export function hasTextArea(node) {
