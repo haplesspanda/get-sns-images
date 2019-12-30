@@ -4,12 +4,12 @@ const textAreaSelector = `textarea.${textAreaClass}`;
 export function createTextArea(date, url, imageUrls, opt_height) {
   let result = `\`${date}\`\n<${url}>\n`;
   imageUrls.forEach((imageUrl, index) => {
-    result += imageUrl + '\n';
-    
     // Split into sets of 5 due to discord embed limit.
-    if (index > 0 && (index + 1) % 5 === 0) {
+    if (index > 0 && index  % 5 === 0) {
       result += '\n^\n';
     }
+    
+    result += imageUrl + '\n';    
   });
   
   const textArea = document.createElement('textarea');

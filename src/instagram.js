@@ -41,7 +41,7 @@ import {createTextArea, formatDate, hasTextArea} from './common';
     const nextButton = nextButtonIcon && nextButtonIcon.parentElement;
     if (nextButton) {
       nextButton.click();
-      setTimeout(appendImagesAndAdvance, 0);
+      setTimeout(appendImagesAndAdvance, 10);
     } else {
       // No more images - add textarea.
       if (!hasTextArea(context)) {
