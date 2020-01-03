@@ -50,9 +50,7 @@ export function createTextArea(date, url, imageUrls, opt_height) {
   buttonContainer.appendChild(openButton);
   // TODO: Should also handle keyboard events
   openButton.onclick = () => {
-    imageUrls.forEach(imageUrl => {
-      window.open(imageUrl);
-    });
+    chrome.runtime.sendMessage({type: 'opentabs', urls: imageUrls});
   };
 
   return textAreaContainer;

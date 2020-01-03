@@ -1,9 +1,9 @@
 {
   "name": "Get SNS Images for KPOP Discord",
-  "version": "0.0.0.11",
+  "version": "0.0.0.12",
   "description": "Easily get images from Twitter, Instagram, and Tistory",
   "manifest_version": 2,
-  "permissions": ["activeTab", "declarativeContent"],
+  "permissions": ["activeTab"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
