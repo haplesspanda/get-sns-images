@@ -12,12 +12,12 @@ import {createTextArea, formatDate, hasTextArea} from './common';
       return backgroundImage.includes('/media/') || backgroundImage.includes('ext_tw_video_thumb');
     });
     result.imageUrls = [...filteredImages].map(image => {
-      const lowResImageUri = image.style['background-image'].replace(/^url\("/, "").replace(/"\)$/, "");
-      if (lowResImageUri.includes('ext_tw_video_thumb')) {
+      if (!!image.querySelector('.video-overlay')) {
         // Twitter video - just return the t.co link for smallest embed.
         return image.href;
       } else {
         // Normal image.
+        const lowResImageUri = image.style['background-image'].replace(/^url\("/, "").replace(/"\)$/, "");
         const url = new URL(lowResImageUri);
         url.searchParams.set('name', 'orig');
         return url.toString();
