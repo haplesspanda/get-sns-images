@@ -34,24 +34,24 @@ export function createTextArea(date, url, imageUrls, opt_height) {
   
   textAreaContainer.appendChild(buttonContainer);
   
-  const copyButton = document.createElement('button');
-  copyButton.innerText = 'Copy';
-  copyButton.style.flex = '1';
-  buttonContainer.appendChild(copyButton);
-  // TODO: Should also handle keyboard events
-  copyButton.onclick = () => {
+  function createButton(text, handler) {
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.style.flex = '1';
+    button.onclick = handler;
+    return button;
+  }
+  
+  const copyButton = createButton('Copy', () => {
     textArea.select();
     document.execCommand('copy');
-  };
+  });
+  buttonContainer.appendChild(copyButton);
   
-  const openButton = document.createElement('button');
-  openButton.innerText = 'Open all';  
-  openButton.style.flex = '1';
-  buttonContainer.appendChild(openButton);
-  // TODO: Should also handle keyboard events
-  openButton.onclick = () => {
+  const openButton = createButton('Open all', () => {
     chrome.runtime.sendMessage({type: 'opentabs', urls: imageUrls});
-  };
+  });
+  buttonContainer.appendChild(openButton);
 
   return textAreaContainer;
 }

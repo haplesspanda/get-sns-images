@@ -7,6 +7,7 @@ module.exports = {
     instagram: './src/instagram.js',
     tistory: './src/tistory.js',
     tweetdeck: './src/tweetdeck.js',
+    autodetect: './src/autodetect.js',
   },
   output: {
     filename: '[name].js',
