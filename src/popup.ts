@@ -1,4 +1,13 @@
-const BUTTONS = [
+import {PageType, Message} from './types';
+
+interface ButtonSpec {
+  buttonId: string;
+  file: string;
+  name: PageType;
+  text: string;
+}
+
+const BUTTONS: ButtonSpec[] = [
   {buttonId: 'old-twitter-button', file: 'dist/oldtwitter.js', name: 'oldtwitter', text: 'Old Twitter'},
   {buttonId: 'new-twitter-button', file: 'dist/newtwitter.js', name: 'newtwitter', text: 'New Twitter'},
   {buttonId: 'tweetdeck-button', file: 'dist/tweetdeck.js', name: 'tweetdeck', text: 'TweetDeck'},
@@ -6,20 +15,19 @@ const BUTTONS = [
   {buttonId: 'tistory-button', file: 'dist/tistory.js', name: 'tistory', text: 'Tistory'},
 ];
 
-function decorateButton(button, file, text) {
+function decorateButton(button: HTMLButtonElement, file: string, text: string) {
   button.innerText = text;
   button.onclick = function() {
     chrome.tabs.executeScript({file});
   };
-  return button;
 }
 
-function showAutodetectedOption(button) {
-  decorateButton(document.getElementById('autodetected-button'), button.file, button.text);
+function showAutodetectedOption(button: ButtonSpec) {
+  decorateButton(document.getElementById('autodetected-button') as HTMLButtonElement, button.file, button.text);
   
   const seeAllOptions = document.getElementById('see-all-options');  
-  const handler = event => {
-    if (event.type === 'click' || event.key === ' ' || event.key === 'Enter') {
+  const handler = (event: MouseEvent|KeyboardEvent) => {
+    if (event.type === 'click' || (event instanceof KeyboardEvent && (event.key === ' ' || event.key === 'Enter'))) {
       showAllOptions();
     }
   };
@@ -32,7 +40,7 @@ function showAutodetectedOption(button) {
 
 function showAllOptions() {
   BUTTONS.forEach(button => {
-    decorateButton(document.getElementById(button.buttonId), button.file, button.text);
+    decorateButton(document.getElementById(button.buttonId) as HTMLButtonElement, button.file, button.text);
   });
   document.getElementById('all-options').style.display = 'initial';
   document.getElementById('autodetect').style.display = 'none';  
@@ -40,7 +48,7 @@ function showAllOptions() {
 
 chrome.tabs.executeScript({file: 'dist/autodetect.js'});
 
-chrome.runtime.onMessage.addListener((request, sender) => {
+chrome.runtime.onMessage.addListener((request: Message) => {
   if (request.type === 'autodetect') {
     const detectedButton = BUTTONS.find(button => button.name === request.result);
     if (detectedButton) {
@@ -50,3 +58,4 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     }
   }
 });
+

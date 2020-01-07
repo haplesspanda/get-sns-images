@@ -1,5 +1,7 @@
+import {Message, PageType} from './types';
+
 (() => {
-  function autodetect() {
+  function autodetect(): PageType|'unknown' {
     const location = window.location;
     if (location.host === 'tweetdeck.twitter.com') {
       return 'tweetdeck';
@@ -22,5 +24,7 @@
     return 'unknown';
   }
 
-  chrome.runtime.sendMessage({type: 'autodetect', result: autodetect()});
+  const result: Message = {type: 'autodetect', result: autodetect()};
+
+  chrome.runtime.sendMessage(result);
 })()

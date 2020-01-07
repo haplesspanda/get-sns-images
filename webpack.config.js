@@ -2,12 +2,14 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    oldtwitter: './src/oldtwitter.js',
-    newtwitter: './src/newtwitter.js',
-    instagram: './src/instagram.js',
-    tistory: './src/tistory.js',
-    tweetdeck: './src/tweetdeck.js',
-    autodetect: './src/autodetect.js',
+    oldtwitter: './tsout/oldtwitter.js',
+    newtwitter: './tsout/newtwitter.js',
+    instagram: './tsout/instagram.js',
+    tistory: './tsout/tistory.js',
+    tweetdeck: './tsout/tweetdeck.js',
+    autodetect: './tsout/autodetect.js',
+    popup: './tsout/popup.js',
+    background: './tsout/background.js',
   },
   output: {
     filename: '[name].js',

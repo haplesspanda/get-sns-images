@@ -1,2 +1,3 @@
 dist/*
+tsout/*
 node_modules/
