@@ -13,7 +13,8 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "@types/chrome": "0.0.91"
+    "@types/chrome": "0.0.91",
+    "typescript": "^3.7.4"
   },
   "main": "background.js",
   "repository": {
