@@ -1,22 +1,27 @@
-export type PageType = 'oldtwitter'|'newtwitter'|'instagram'|'tweetdeck'|'tistory';
+export type PageType =
+  | "oldtwitter"
+  | "newtwitter"
+  | "instagram"
+  | "tweetdeck"
+  | "tistory";
 
 interface AutodetectMessage {
-  type: 'autodetect';
-  result: PageType|'unknown';
+  type: "autodetect";
+  result: PageType | "unknown";
 }
 
 interface OpenTabsMessage {
-  type: 'opentabs';
+  type: "opentabs";
   urls: string[];
 }
 
 // Message passed from content scripts.
-export type Message = AutodetectMessage|OpenTabsMessage;
+export type Message = AutodetectMessage | OpenTabsMessage;
 
 // Used for Twitter elements.
 export interface StructuredItem {
   imageUrls: string[];
-  tweetUrl: string|null;
-  date: string|null;
+  tweetUrl: string | null;
+  date: string | null;
   streamItem: HTMLElement;
 }
