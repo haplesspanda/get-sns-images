@@ -25,7 +25,7 @@ function decorateButton(button: HTMLButtonElement, file: string, text: string) {
 function showAutodetectedOption(button: ButtonSpec) {
   decorateButton(document.getElementById('autodetected-button') as HTMLButtonElement, button.file, button.text);
   
-  const seeAllOptions = document.getElementById('see-all-options');  
+  const seeAllOptions: HTMLElement = document.getElementById('see-all-options')!;  
   const handler = (event: MouseEvent|KeyboardEvent) => {
     if (event.type === 'click' || (event instanceof KeyboardEvent && (event.key === ' ' || event.key === 'Enter'))) {
       showAllOptions();
@@ -34,16 +34,16 @@ function showAutodetectedOption(button: ButtonSpec) {
   seeAllOptions.onclick = handler;
   seeAllOptions.onkeypress = handler;  
   
-  document.getElementById('autodetect').style.display = 'initial';  
-  document.getElementById('all-options').style.display = 'none';
+  document.getElementById('autodetect')!.style.display = 'initial';  
+  document.getElementById('all-options')!.style.display = 'none';
 }
 
 function showAllOptions() {
   BUTTONS.forEach(button => {
     decorateButton(document.getElementById(button.buttonId) as HTMLButtonElement, button.file, button.text);
   });
-  document.getElementById('all-options').style.display = 'initial';
-  document.getElementById('autodetect').style.display = 'none';  
+  document.getElementById('all-options')!.style.display = 'initial';
+  document.getElementById('autodetect')!.style.display = 'none';  
 }
 
 chrome.tabs.executeScript({file: 'dist/autodetect.js'});

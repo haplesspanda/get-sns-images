@@ -2,26 +2,24 @@ import {createTextArea, hasTextArea} from './common';
 import {StructuredItem} from './types';
 
 (function oldTwitterExecFn() {
-  const streamItems = Array.from(document.querySelectorAll('.permalink-tweet-container')).concat(Array.from(document.querySelectorAll("li.stream-item"))) as HTMLElement[];
-  const structuredItems = streamItems.map(streamItem => {
-    // TODO: Stop using partial: it's making the typing weaker.
-    const result: Partial<StructuredItem> = {};
-    
-    const images = streamItem.querySelectorAll(".js-adaptive-photo img");
-    result.imageUrls = Array.from(images).map(image => image.getAttribute("src") + ":orig");
+  const tweetContainers: HTMLElement[] = Array.from(document.querySelectorAll('.permalink-tweet-container'));
+  const streamItems: HTMLElement[] = Array.from(document.querySelectorAll("li.stream-item"));
+  const allTweets = tweetContainers.concat(streamItems);
 
-    const permalinkPath = streamItem.querySelector("div.tweet").getAttribute("data-permalink-path");
+  const structuredItems: StructuredItem[] = allTweets.map(streamItem => {    
+    const images = streamItem.querySelectorAll(".js-adaptive-photo img");
+    const imageUrls = Array.from(images).map(image => image.getAttribute("src") + ":orig");
+
+    const tweetElement = streamItem.querySelector("div.tweet");
+    const permalinkPath = tweetElement && tweetElement.getAttribute("data-permalink-path");
     const urlToTweet = `https://twitter.com${permalinkPath}`;
-    result.tweetUrl = urlToTweet;
-    result.streamItem = streamItem;
+    const tweetUrl = urlToTweet;
 
     const tweetTextElement = streamItem.querySelector("p.tweet-text");
-    const dateMatch = tweetTextElement.textContent.match(/\b(20)?([0-9]{6})\b/);
+    const dateMatch = tweetTextElement && tweetTextElement.textContent && tweetTextElement.textContent.match(/\b(20)?([0-9]{6})\b/);
     const date = dateMatch && dateMatch.length >= 3 && dateMatch[2] || null;
 
-    result.date = date;
-
-    return result;
+    return {imageUrls, tweetUrl, streamItem, date};
   });
 
   structuredItems.forEach(structuredItem => {

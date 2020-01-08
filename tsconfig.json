@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
       "module": "ES6",
-      "noImplicitAny": true,
+      "strict": true,
       "removeComments": true,
       "preserveConstEnums": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
       "outDir": "tsout/",
   },
   "include": [

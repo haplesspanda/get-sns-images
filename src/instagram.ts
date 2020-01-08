@@ -2,11 +2,16 @@ import {createTextArea, formatDate, hasTextArea} from './common';
 
 (function instagramExecFn() {
   const article = document.querySelector('div[role="dialog"] article') || document.querySelector('main[role="main"] article');
+  if (!article) {
+    return;
+  }
+
   const dialogArticle = article.parentElement;
-  const context = dialogArticle || document;  
+  const context = dialogArticle || document;
   
-  const time = article.querySelector('a time').getAttribute('datetime');
-  const formattedDateString = formatDate(time);    
+  const timeElement = article.querySelector('a time');
+  const time = timeElement && timeElement.getAttribute('datetime');
+  const formattedDateString = time ? formatDate(time) : null;
   const permalink = window.location.href;  
   const srcs: string[] = [];
   
@@ -28,7 +33,7 @@ import {createTextArea, formatDate, hasTextArea} from './common';
   goToStart();
   
   function appendImagesAndAdvance() {
-    const images = Array.from(context.querySelectorAll('img[srcset], video')) as HTMLImageElement[];
+    const images: HTMLImageElement[] = Array.from(context.querySelectorAll('img[srcset], video'));
     const newSrcs = images.map(image => image.src);
     newSrcs.forEach(newSrc => {
       if (!srcs.includes(newSrc)) {
@@ -45,10 +50,8 @@ import {createTextArea, formatDate, hasTextArea} from './common';
     } else {
       // No more images - add textarea.
       if (!hasTextArea(context)) {
-        const textArea = createTextArea(formattedDateString, permalink, srcs, '300px');
-        
-        const container = context === document ? document.querySelector('article').parentElement : context;
-        container.appendChild(textArea);
+        const textArea = createTextArea(formattedDateString, permalink, srcs, '300px');        
+        context.appendChild(textArea);
       }
     }
   }

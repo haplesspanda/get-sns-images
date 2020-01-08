@@ -1,8 +1,11 @@
 const textAreaClass = 'image-link-textarea';
 const textAreaSelector = `textarea.${textAreaClass}`;
 
-export function createTextArea(date: string, url: string, imageUrls: string[], opt_height?: string) {
-  let result = `\`${date}\`\n<${url}>\n`;
+export function createTextArea(date: string|null, url: string|null, imageUrls: string[], opt_height?: string) {
+  const renderedDate = date || 'unknown date';
+  const renderedUrl = url || 'unknown url';
+
+  let result = `\`${renderedDate}\`\n<${renderedUrl}>\n`;
   imageUrls.forEach((imageUrl, index) => {
     // Split into sets of 5 due to discord embed limit.
     if (index > 0 && index  % 5 === 0) {

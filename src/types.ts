@@ -16,7 +16,7 @@ export type Message = AutodetectMessage|OpenTabsMessage;
 // Used for Twitter elements.
 export interface StructuredItem {
   imageUrls: string[];
-  tweetUrl: string;
-  date: string;
+  tweetUrl: string|null;
+  date: string|null;
   streamItem: HTMLElement;
 }
