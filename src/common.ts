@@ -1,4 +1,4 @@
-const textAreaClass = "image-link-textarea";
+const textAreaClass = 'image-link-textarea';
 const textAreaSelector = `textarea.${textAreaClass}`;
 
 export function createTextArea(
@@ -7,57 +7,57 @@ export function createTextArea(
   imageUrls: string[],
   opt_height?: string
 ) {
-  const renderedDate = date || "unknown date";
-  const renderedUrl = url || "unknown url";
+  const renderedDate = date || 'unknown date';
+  const renderedUrl = url || 'unknown url';
 
   let result = `\`${renderedDate}\`\n<${renderedUrl}>\n`;
   imageUrls.forEach((imageUrl, index) => {
     // Split into sets of 5 due to discord embed limit.
     if (index > 0 && index % 5 === 0) {
-      result += "\n^\n";
+      result += '\n^\n';
     }
 
-    result += imageUrl + "\n";
+    result += imageUrl + '\n';
   });
 
-  const textAreaContainer = document.createElement("div");
-  textAreaContainer.style.width = "100%";
-  textAreaContainer.style.border = "3px solid red";
-  textAreaContainer.style.boxSizing = "border-box";
+  const textAreaContainer = document.createElement('div');
+  textAreaContainer.style.width = '100%';
+  textAreaContainer.style.border = '3px solid red';
+  textAreaContainer.style.boxSizing = 'border-box';
 
-  const textArea = document.createElement("textarea");
+  const textArea = document.createElement('textarea');
   textArea.classList.add(textAreaClass);
-  textArea.style.display = "block";
-  textArea.style.width = "100%";
-  textArea.style.boxSizing = "border-box";
+  textArea.style.display = 'block';
+  textArea.style.width = '100%';
+  textArea.style.boxSizing = 'border-box';
   textArea.value = result;
-  textArea.style.height = opt_height || "100px";
+  textArea.style.height = opt_height || '100px';
 
   textAreaContainer.appendChild(textArea);
 
-  const buttonContainer = document.createElement("div");
-  buttonContainer.style.display = "flex";
-  buttonContainer.style.flexDirection = "row";
-  buttonContainer.style.width = "100%";
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.display = 'flex';
+  buttonContainer.style.flexDirection = 'row';
+  buttonContainer.style.width = '100%';
 
   textAreaContainer.appendChild(buttonContainer);
 
   function createButton(text: string, handler: (event: Event) => void) {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.innerText = text;
-    button.style.flex = "1";
+    button.style.flex = '1';
     button.onclick = handler;
     return button;
   }
 
-  const copyButton = createButton("Copy", () => {
+  const copyButton = createButton('Copy', () => {
     textArea.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
   });
   buttonContainer.appendChild(copyButton);
 
-  const openButton = createButton("Open all", () => {
-    chrome.runtime.sendMessage({ type: "opentabs", urls: imageUrls });
+  const openButton = createButton('Open all', () => {
+    chrome.runtime.sendMessage({type: 'opentabs', urls: imageUrls});
   });
   buttonContainer.appendChild(openButton);
 
@@ -69,12 +69,12 @@ export function hasTextArea(node: Document | Element) {
 }
 
 export function formatDate(datetime: string) {
-  const dateString = new Date(datetime).toLocaleDateString("ko", {
-    timeZone: "Asia/Seoul",
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit"
+  const dateString = new Date(datetime).toLocaleDateString('ko', {
+    timeZone: 'Asia/Seoul',
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit'
   });
-  const formattedDateString = dateString.replace(/\./g, "").replace(/ /g, ""); // TODO: Not sure why this doesn't work in one pass.
+  const formattedDateString = dateString.replace(/\./g, '').replace(/ /g, ''); // TODO: Not sure why this doesn't work in one pass.
   return formattedDateString;
 }

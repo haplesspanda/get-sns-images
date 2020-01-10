@@ -1,12 +1,12 @@
-import { createTextArea, formatDate, hasTextArea } from "./common";
-import { StructuredItem } from "./types";
+import {createTextArea, formatDate, hasTextArea} from './common';
+import {StructuredItem} from './types';
 
 const photoLinkSelector = 'a[href*="/photo/"]';
 const innerImageSelector = 'div[aria-label="Image"] img';
 
 (function newTwitterExecFn() {
   function addLinksToPage() {
-    const streamItems = Array.from(document.querySelectorAll("article"));
+    const streamItems = Array.from(document.querySelectorAll('article'));
 
     // Filter out sponsored stuff that gets ad-blocked
     const actualTweets = streamItems.filter(streamItem =>
@@ -39,17 +39,17 @@ const innerImageSelector = 'div[aria-label="Image"] img';
         link.querySelector(innerImageSelector)
       );
       const imageUrls = images.map(image => {
-        const imageSrc = image!.getAttribute("src") || "";
+        const imageSrc = image!.getAttribute('src') || '';
         const href = new URL(imageSrc);
-        href.searchParams.set("name", "orig");
+        href.searchParams.set('name', 'orig');
         return href.toString();
       });
 
       const firstPhotoLink: HTMLLinkElement = imageLinks[0];
-      const permalinkPath = firstPhotoLink.href.replace(/\/photo\/.*$/, "");
+      const permalinkPath = firstPhotoLink.href.replace(/\/photo\/.*$/, '');
       const tweetUrl = permalinkPath;
 
-      const tweetTextElement = streamItem.querySelector("div[lang]");
+      const tweetTextElement = streamItem.querySelector('div[lang]');
       const dateMatch =
         tweetTextElement &&
         tweetTextElement.textContent &&
@@ -58,15 +58,15 @@ const innerImageSelector = 'div[aria-label="Image"] img';
 
       // Fallback to date on tweet
       // TODO: Make this work for retweets (they don't have a nicely formatted time)
-      const timeElement = streamItem.querySelector("time");
+      const timeElement = streamItem.querySelector('time');
       if (!date && timeElement) {
-        const time = timeElement.getAttribute("datetime");
+        const time = timeElement.getAttribute('datetime');
         if (time) {
           date = formatDate(time);
         }
       }
 
-      return { imageUrls, tweetUrl, streamItem, date };
+      return {imageUrls, tweetUrl, streamItem, date};
     });
 
     structuredItems.forEach(structuredItem => {

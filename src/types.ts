@@ -1,17 +1,17 @@
 export type PageType =
-  | "oldtwitter"
-  | "newtwitter"
-  | "instagram"
-  | "tweetdeck"
-  | "tistory";
+  | 'oldtwitter'
+  | 'newtwitter'
+  | 'instagram'
+  | 'tweetdeck'
+  | 'tistory';
 
 interface AutodetectMessage {
-  type: "autodetect";
-  result: PageType | "unknown";
+  type: 'autodetect';
+  result: PageType | 'unknown';
 }
 
 interface OpenTabsMessage {
-  type: "opentabs";
+  type: 'opentabs';
   urls: string[];
 }
 

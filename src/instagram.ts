@@ -1,4 +1,4 @@
-import { createTextArea, formatDate, hasTextArea } from "./common";
+import {createTextArea, formatDate, hasTextArea} from './common';
 
 (function instagramExecFn() {
   const article =
@@ -11,8 +11,8 @@ import { createTextArea, formatDate, hasTextArea } from "./common";
   const dialogArticle = article.parentElement;
   const context = dialogArticle || document;
 
-  const timeElement = article.querySelector("a time");
-  const time = timeElement && timeElement.getAttribute("datetime");
+  const timeElement = article.querySelector('a time');
+  const time = timeElement && timeElement.getAttribute('datetime');
   const formattedDateString = time ? formatDate(time) : null;
   const permalink = window.location.href;
   const srcs: string[] = [];
@@ -23,7 +23,7 @@ import { createTextArea, formatDate, hasTextArea } from "./common";
 
   function goToStart() {
     const previousButtonIcon = context.querySelector(
-      "button .coreSpriteLeftChevron"
+      'button .coreSpriteLeftChevron'
     );
     const previousButton =
       previousButtonIcon && previousButtonIcon.parentElement;
@@ -39,7 +39,7 @@ import { createTextArea, formatDate, hasTextArea } from "./common";
 
   function appendImagesAndAdvance() {
     const images: HTMLImageElement[] = Array.from(
-      context.querySelectorAll("img[srcset], video")
+      context.querySelectorAll('img[srcset], video')
     );
     const newSrcs = images.map(image => image.src);
     newSrcs.forEach(newSrc => {
@@ -50,7 +50,7 @@ import { createTextArea, formatDate, hasTextArea } from "./common";
 
     // If there are more images, go to the next one and run again.
     const nextButtonIcon = context.querySelector(
-      "button .coreSpriteRightChevron"
+      'button .coreSpriteRightChevron'
     );
     const nextButton = nextButtonIcon && nextButtonIcon.parentElement;
     if (nextButton) {
@@ -63,7 +63,7 @@ import { createTextArea, formatDate, hasTextArea } from "./common";
           formattedDateString,
           permalink,
           srcs,
-          "300px"
+          '300px'
         );
         context.appendChild(textArea);
       }
