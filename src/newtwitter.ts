@@ -14,8 +14,6 @@ const innerImageSelector = 'div[aria-label="Image"] img';
     );
 
     const structuredItems: StructuredItem[] = actualTweets.map(streamItem => {
-      // TODO: Stop using partial: it's making the typing weaker.
-
       // New twitter w/ 4 links has images out of order in the DOM. Sort by URL which has 1/2/3/4.
       const imageLinks: HTMLLinkElement[] = Array.from(
         streamItem.querySelectorAll(photoLinkSelector)

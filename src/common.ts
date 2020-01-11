@@ -75,6 +75,6 @@ export function formatDate(datetime: string) {
     month: '2-digit',
     day: '2-digit'
   });
-  const formattedDateString = dateString.replace(/\./g, '').replace(/ /g, ''); // TODO: Not sure why this doesn't work in one pass.
+  const formattedDateString = dateString.replace(/(\.|\s)/g, '');
   return formattedDateString;
 }
