@@ -10,6 +10,7 @@ module.exports = {
     autodetect: './tsout/autodetect.js',
     popup: './tsout/popup.js',
     background: './tsout/background.js',
+    naverpost: './tsout/naverpost.js',
   },
   output: {
     filename: '[name].js',

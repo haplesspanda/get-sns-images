@@ -3,7 +3,8 @@ export type PageType =
   | 'newtwitter'
   | 'instagram'
   | 'tweetdeck'
-  | 'tistory';
+  | 'tistory'
+  | 'naverpost';
 
 interface AutodetectMessage {
   type: 'autodetect';

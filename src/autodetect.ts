@@ -11,6 +11,10 @@ import {Message, PageType} from './types';
       return 'instagram';
     }
 
+    if (location.host.endsWith('post.naver.com')) {
+      return 'naverpost';
+    }
+
     if (location.host.endsWith('twitter.com')) {
       if (!!document.querySelector('article')) {
         return 'newtwitter';

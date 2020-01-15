@@ -37,6 +37,12 @@ const BUTTONS: ButtonSpec[] = [
     file: 'dist/tistory.js',
     name: 'tistory',
     text: 'Tistory'
+  },
+  {
+    buttonId: 'naver-post-button',
+    file: 'dist/naverpost.js',
+    name: 'naverpost',
+    text: 'Naver Post'
   }
 ];
 
