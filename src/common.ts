@@ -56,7 +56,9 @@ export function createTextArea(
   });
   buttonContainer.appendChild(copyButton);
 
-  const openButton = createButton('Open all', () => {
+  const openAllButtonText =
+    imageUrls.length > 5 ? `Open all (${imageUrls.length})` : 'Open all';
+  const openButton = createButton(openAllButtonText, () => {
     chrome.runtime.sendMessage({type: 'opentabs', urls: imageUrls});
   });
   buttonContainer.appendChild(openButton);
