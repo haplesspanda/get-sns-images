@@ -1,4 +1,4 @@
-import {createTextArea, formatDate, hasTextArea} from './common';
+import {createTextArea, extractDate, formatDate, hasTextArea} from './common';
 import {StructuredItem} from './types';
 
 const photoLinkSelector = 'a[href*="/photo/"]';
@@ -48,10 +48,7 @@ const innerImageSelector = 'div[aria-label="Image"] img';
       const tweetUrl = permalinkPath;
 
       const tweetTextElement = streamItem.querySelector('div[lang]');
-      const dateMatch = tweetTextElement?.textContent?.match(
-        /\b(20)?([0-9]{6})\b/
-      );
-      let date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
+      let date = extractDate(tweetTextElement);
 
       // Fallback to date on tweet
       // TODO: Make this work for retweets (they don't have a nicely formatted time)

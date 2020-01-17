@@ -1,4 +1,4 @@
-import {hasTextArea, createTextArea} from './common';
+import {createTextArea, extractDate, hasTextArea} from './common';
 
 (function tistoryExecFn() {
   // TODO: Need to test on more sites, this works for a few at least
@@ -9,9 +9,7 @@ import {hasTextArea, createTextArea} from './common';
   if (!title) {
     return;
   }
-  const dateMatch = title.textContent?.match(/\b(20)?([0-9]{6})\b/);
-  const formattedDate =
-    (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
+  const formattedDate = extractDate(title);
   const currentUrl = window.location.href;
 
   const contents =

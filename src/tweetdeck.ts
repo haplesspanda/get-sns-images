@@ -1,4 +1,4 @@
-import {createTextArea, formatDate, hasTextArea} from './common';
+import {createTextArea, extractDate, formatDate, hasTextArea} from './common';
 import {StructuredItem} from './types';
 
 (function tweetDeckExecFn() {
@@ -41,10 +41,7 @@ import {StructuredItem} from './types';
     const tweetUrl = timeLinkElement?.getAttribute('href') ?? null;
 
     const tweetTextElement = streamItem.querySelector('p.tweet-text');
-    const dateMatch = tweetTextElement?.textContent?.match(
-      /\b(20)?([0-9]{6})\b/
-    );
-    let date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
+    let date = extractDate(tweetTextElement);
 
     // Fallback to date on tweet
     const timeElement = streamItem.querySelector('time');

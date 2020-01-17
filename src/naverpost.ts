@@ -1,4 +1,4 @@
-import {createTextArea, hasTextArea} from './common';
+import {createTextArea, extractDate, hasTextArea} from './common';
 
 (function naverPostExecFunction() {
   const post = document.querySelector('.se_doc_viewer');
@@ -18,19 +18,8 @@ import {createTextArea, hasTextArea} from './common';
     return;
   }
 
-  // TODO: Commonize date matching from post text content (twitter, tistory)
-  const titleDateMatch = title?.textContent?.match(/\b(20)?([0-9]{6})\b/);
-  const titleDate =
-    (titleDateMatch && titleDateMatch.length >= 3 && titleDateMatch[2]) || null;
-
-  const publishDateElement = post.querySelector('.se_publishDate');
-  const publishDateMatch = publishDateElement?.textContent?.match(
-    /20([0-9]{2}).([0-9]{2}).([0-9]{2})/
-  );
-  const publishDate =
-    publishDateMatch && publishDateMatch.length === 4
-      ? publishDateMatch[1] + publishDateMatch[2] + publishDateMatch[3]
-      : null;
+  const titleDate = extractDate(title);
+  const publishDate = extractDate(post.querySelector('.se_publishDate'));
 
   const textAreaContainer = title.querySelector('.se_editArea');
   if (textAreaContainer && !hasTextArea(textAreaContainer)) {

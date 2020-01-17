@@ -6,7 +6,7 @@ export function createTextArea(
   url: string | null,
   imageUrls: string[],
   opt_height?: string
-) {
+): HTMLElement {
   const renderedDate = date ?? 'unknown date';
   const renderedUrl = url ?? 'unknown url';
 
@@ -64,11 +64,20 @@ export function createTextArea(
   return textAreaContainer;
 }
 
-export function hasTextArea(node: Document | Element) {
+export function hasTextArea(node: Document | Element): boolean {
   return !!node.querySelector(textAreaSelector);
 }
 
-export function formatDate(datetime: string) {
+export function extractDate(element: Element | null): string | null {
+  const dateMatch = element?.textContent?.match(
+    /(20)?([0-9]{2})\.?([0-9]{2})\.?([0-9]{2})/
+  );
+  return dateMatch && dateMatch.length === 5
+    ? dateMatch[2] + dateMatch[3] + dateMatch[4]
+    : null;
+}
+
+export function formatDate(datetime: string): string {
   const dateString = new Date(datetime).toLocaleDateString('ko', {
     timeZone: 'Asia/Seoul',
     year: '2-digit',

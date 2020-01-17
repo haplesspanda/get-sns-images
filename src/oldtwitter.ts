@@ -1,4 +1,4 @@
-import {createTextArea, hasTextArea} from './common';
+import {createTextArea, extractDate, hasTextArea} from './common';
 import {StructuredItem} from './types';
 
 (function oldTwitterExecFn() {
@@ -22,10 +22,7 @@ import {StructuredItem} from './types';
     const tweetUrl = urlToTweet;
 
     const tweetTextElement = streamItem.querySelector('p.tweet-text');
-    const dateMatch = tweetTextElement?.textContent?.match(
-      /\b(20)?([0-9]{6})\b/
-    );
-    const date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
+    const date = extractDate(tweetTextElement);
 
     return {imageUrls, tweetUrl, streamItem, date};
   });
