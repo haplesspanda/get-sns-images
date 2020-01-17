@@ -17,16 +17,14 @@ import {StructuredItem} from './types';
     );
 
     const tweetElement = streamItem.querySelector('div.tweet');
-    const permalinkPath =
-      tweetElement && tweetElement.getAttribute('data-permalink-path');
+    const permalinkPath = tweetElement?.getAttribute('data-permalink-path');
     const urlToTweet = `https://twitter.com${permalinkPath}`;
     const tweetUrl = urlToTweet;
 
     const tweetTextElement = streamItem.querySelector('p.tweet-text');
-    const dateMatch =
-      tweetTextElement &&
-      tweetTextElement.textContent &&
-      tweetTextElement.textContent.match(/\b(20)?([0-9]{6})\b/);
+    const dateMatch = tweetTextElement?.textContent?.match(
+      /\b(20)?([0-9]{6})\b/
+    );
     const date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
 
     return {imageUrls, tweetUrl, streamItem, date};

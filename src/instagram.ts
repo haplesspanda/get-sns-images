@@ -2,17 +2,17 @@ import {createTextArea, formatDate, hasTextArea} from './common';
 
 (function instagramExecFn() {
   const article =
-    document.querySelector('div[role="dialog"] article') ||
+    document.querySelector('div[role="dialog"] article') ??
     document.querySelector('main[role="main"] article');
   if (!article) {
     return;
   }
 
   const dialogArticle = article.parentElement;
-  const context = dialogArticle || document;
+  const context = dialogArticle ?? document;
 
   const timeElement = article.querySelector('a time');
-  const time = timeElement && timeElement.getAttribute('datetime');
+  const time = timeElement?.getAttribute('datetime');
   const formattedDateString = time ? formatDate(time) : null;
   const permalink = window.location.href;
   const srcs: string[] = [];
@@ -25,8 +25,7 @@ import {createTextArea, formatDate, hasTextArea} from './common';
     const previousButtonIcon = context.querySelector(
       'button .coreSpriteLeftChevron'
     );
-    const previousButton =
-      previousButtonIcon && previousButtonIcon.parentElement;
+    const previousButton = previousButtonIcon?.parentElement;
     if (previousButton) {
       previousButton.click();
       setTimeout(goToStart, 0);
@@ -52,7 +51,7 @@ import {createTextArea, formatDate, hasTextArea} from './common';
     const nextButtonIcon = context.querySelector(
       'button .coreSpriteRightChevron'
     );
-    const nextButton = nextButtonIcon && nextButtonIcon.parentElement;
+    const nextButton = nextButtonIcon?.parentElement;
     if (nextButton) {
       nextButton.click();
       setTimeout(appendImagesAndAdvance, 10);

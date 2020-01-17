@@ -38,13 +38,12 @@ import {StructuredItem} from './types';
     }
 
     const timeLinkElement = streamItem.querySelector('time a');
-    const tweetUrl = timeLinkElement && timeLinkElement.getAttribute('href');
+    const tweetUrl = timeLinkElement?.getAttribute('href') ?? null;
 
     const tweetTextElement = streamItem.querySelector('p.tweet-text');
-    const dateMatch =
-      tweetTextElement &&
-      tweetTextElement.textContent &&
-      tweetTextElement.textContent.match(/\b(20)?([0-9]{6})\b/);
+    const dateMatch = tweetTextElement?.textContent?.match(
+      /\b(20)?([0-9]{6})\b/
+    );
     let date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
 
     // Fallback to date on tweet

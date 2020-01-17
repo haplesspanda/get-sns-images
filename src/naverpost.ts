@@ -19,18 +19,14 @@ import {createTextArea, hasTextArea} from './common';
   }
 
   // TODO: Commonize date matching from post text content (twitter, tistory)
-  const titleDateMatch =
-    title &&
-    title.textContent &&
-    title.textContent.match(/\b(20)?([0-9]{6})\b/);
+  const titleDateMatch = title?.textContent?.match(/\b(20)?([0-9]{6})\b/);
   const titleDate =
     (titleDateMatch && titleDateMatch.length >= 3 && titleDateMatch[2]) || null;
 
   const publishDateElement = post.querySelector('.se_publishDate');
-  const publishDateMatch =
-    publishDateElement &&
-    publishDateElement.textContent &&
-    publishDateElement.textContent.match(/20([0-9]{2}).([0-9]{2}).([0-9]{2})/);
+  const publishDateMatch = publishDateElement?.textContent?.match(
+    /20([0-9]{2}).([0-9]{2}).([0-9]{2})/
+  );
   const publishDate =
     publishDateMatch && publishDateMatch.length === 4
       ? publishDateMatch[1] + publishDateMatch[2] + publishDateMatch[3]

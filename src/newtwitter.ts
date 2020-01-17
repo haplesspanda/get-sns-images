@@ -37,7 +37,7 @@ const innerImageSelector = 'div[aria-label="Image"] img';
         link.querySelector(innerImageSelector)
       );
       const imageUrls = images.map(image => {
-        const imageSrc = image!.getAttribute('src') || '';
+        const imageSrc = image?.getAttribute('src') ?? '';
         const href = new URL(imageSrc);
         href.searchParams.set('name', 'orig');
         return href.toString();
@@ -48,10 +48,9 @@ const innerImageSelector = 'div[aria-label="Image"] img';
       const tweetUrl = permalinkPath;
 
       const tweetTextElement = streamItem.querySelector('div[lang]');
-      const dateMatch =
-        tweetTextElement &&
-        tweetTextElement.textContent &&
-        tweetTextElement.textContent.match(/\b(20)?([0-9]{6})\b/);
+      const dateMatch = tweetTextElement?.textContent?.match(
+        /\b(20)?([0-9]{6})\b/
+      );
       let date = (dateMatch && dateMatch.length >= 3 && dateMatch[2]) || null;
 
       // Fallback to date on tweet

@@ -7,8 +7,8 @@ export function createTextArea(
   imageUrls: string[],
   opt_height?: string
 ) {
-  const renderedDate = date || 'unknown date';
-  const renderedUrl = url || 'unknown url';
+  const renderedDate = date ?? 'unknown date';
+  const renderedUrl = url ?? 'unknown url';
 
   let result = `\`${renderedDate}\`\n<${renderedUrl}>\n`;
   imageUrls.forEach((imageUrl, index) => {
@@ -31,7 +31,7 @@ export function createTextArea(
   textArea.style.width = '100%';
   textArea.style.boxSizing = 'border-box';
   textArea.value = result;
-  textArea.style.height = opt_height || '100px';
+  textArea.style.height = opt_height ?? '100px';
 
   textAreaContainer.appendChild(textArea);
 
