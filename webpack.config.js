@@ -2,19 +2,31 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    oldtwitter: './tsout/oldtwitter.js',
-    newtwitter: './tsout/newtwitter.js',
-    instagram: './tsout/instagram.js',
-    tistory: './tsout/tistory.js',
-    tweetdeck: './tsout/tweetdeck.js',
-    autodetect: './tsout/autodetect.js',
-    popup: './tsout/popup.js',
-    background: './tsout/background.js',
-    naverpost: './tsout/naverpost.js',
+    oldtwitter: './src/oldtwitter.ts',
+    newtwitter: './src/newtwitter.ts',
+    instagram: './src/instagram.ts',
+    tistory: './src/tistory.ts',
+    tweetdeck: './src/tweetdeck.ts',
+    autodetect: './src/autodetect.ts',
+    popup: './src/popup.ts',
+    background: './src/background.ts',
+    naverpost: './src/naverpost.ts'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
-  mode: 'production',
+  mode: 'production'
 };

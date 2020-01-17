@@ -4,17 +4,18 @@
   "description": "Chrome extension to easily get SNS images for updating KPOP discords.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && webpack"
+    "build": "webpack"
   },
   "private": true,
   "devDependencies": {
-    "@types/node": "^13.1.4",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "@types/chrome": "0.0.91",
-    "typescript": "^3.7.4"
+    "@types/node": "^13.1.7"
   },
   "main": "background.js",
   "repository": {
