@@ -26,3 +26,11 @@ export interface StructuredItem {
   date: string | null;
   streamItem: HTMLElement;
 }
+
+export interface ScheduleEvent {
+  date: string;
+  type: string;
+  name: string;
+}
+
+export type Schedule = Map<string, ScheduleEvent[]>;

@@ -13,14 +13,29 @@
         display: block;
       }
       
-      #autodetect, #all-options {
+      #autodetect, #all-options, #edit-schedule-section {
         display: none;
       }
       
-      #see-all-options {
+      #see-all-options, #edit-schedule {
         text-decoration: underline;
         text-align: center;
         cursor: pointer;
+        margin: 8px;
+      }
+
+      textarea {
+        height: 300px;
+        width: 500px;
+      }
+
+      #schedule-button-container {
+        text-align: right;
+      }
+
+      #cancel-schedule-button, #save-schedule-button {
+        display: inline-block;
+        width: auto;
       }
     </style>
   </head>
@@ -36,6 +51,14 @@
       <button id="instagram-button">Instagram</button>
       <button id="tistory-button">Tistory</button>
       <button id="naver-post-button">Naver Post</button>
+    </div>
+    <div id="edit-schedule" tabindex="0">Edit schedule</div>
+    <div id="edit-schedule-section">
+      <textarea id="schedule-textarea"></textarea>
+      <div id="schedule-button-container">
+        <button id="cancel-schedule-button">Cancel</button>
+        <button id="save-schedule-button">Save schedule</button>
+      </div>
     </div>
     <script src="dist/popup.js"></script>
   </body>

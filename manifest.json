@@ -3,7 +3,7 @@
   "version": "0.0.0.17",
   "description": "Easily get images from Twitter, Instagram, Tistory, and Naver",
   "manifest_version": 2,
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "scripts": ["dist/background.js"],
     "persistent": false
