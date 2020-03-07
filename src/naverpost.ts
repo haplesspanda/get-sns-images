@@ -31,7 +31,7 @@ import {Schedule} from './types';
     const textAreaContainer = title.querySelector('.se_editArea');
     if (textAreaContainer && !hasTextArea(textAreaContainer)) {
       const textArea = createTextArea(
-        titleDate || publishDate,
+        {date: titleDate || publishDate, fromContent: true},
         window.location.href,
         imageUrls,
         schedule,

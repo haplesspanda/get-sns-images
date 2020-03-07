@@ -55,15 +55,15 @@ const innerImageSelector = 'div[aria-label="Image"] img';
         const tweetUrl = permalinkPath;
 
         const tweetTextElement = streamItem.querySelector('div[lang]');
-        let date = extractDate(tweetTextElement);
+        let date = {date: extractDate(tweetTextElement), fromContent: true};
 
         // Fallback to date on tweet
         // TODO: Make this work for retweets (they don't have a nicely formatted time)
         const timeElement = streamItem.querySelector('time');
-        if (!date && timeElement) {
+        if (!date.date && timeElement) {
           const time = timeElement.getAttribute('datetime');
           if (time) {
-            date = formatDate(time);
+            date = {date: formatDate(time), fromContent: false};
           }
         }
 

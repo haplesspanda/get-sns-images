@@ -66,7 +66,7 @@ import {Schedule} from './types';
         // No more images - add textarea.
         if (!hasTextArea(context)) {
           const textArea = createTextArea(
-            formattedDateString,
+            {date: formattedDateString, fromContent: false},
             permalink,
             srcs,
             schedule,

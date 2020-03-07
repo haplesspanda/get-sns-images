@@ -6,21 +6,27 @@ const textAreaSelector = `textarea.${textAreaClass}`;
 export const RAW_SCHEDULE_KEY = 'rawSchedule';
 
 export function createTextArea(
-  date: string | null,
+  date: {date: string | null; fromContent: boolean},
   url: string | null,
   imageUrls: string[],
   schedule: Schedule | undefined,
   opt_height?: string
 ): HTMLElement {
-  const renderedDate = date ?? 'unknown date';
+  const renderedDate = date.date ?? 'unknown date';
   const renderedUrl = url ?? 'unknown url';
 
-  const eventName = schedule && getEventNameFromMap(schedule, renderedDate);
+  const eventNameResult =
+    schedule && date.fromContent && getEventNameFromMap(schedule, renderedDate);
 
   let result = '';
-  if (schedule) {
-    result += `\`${renderedDate}\` **${eventName}**\n<${renderedUrl}>\n`;
+  if (
+    eventNameResult &&
+    eventNameResult !== EventResult.NO_EVENT_FOUND &&
+    eventNameResult !== EventResult.MULTIPLE_EVENTS_FOUND
+  ) {
+    result += `\`${renderedDate}\` **${eventNameResult.name}**\n<${renderedUrl}>\n`;
   } else {
+    // TODO: Do something better in multiple events case
     result += `\`${renderedDate}\`\n<${renderedUrl}>\n`;
   }
   imageUrls.forEach((imageUrl, index) => {
@@ -141,7 +147,7 @@ function getEventSchedules(rawSchedule: string): Schedule {
 
     // Add event with date.
     const eventWithDateMatch = line.match(
-      /^([0-9]{2})\/([0-9]{2})\s*[|ㅣ]\s*[0-9?:-]*\s*\[*(\w+)\]*\s*(.*)$/
+      /^([0-9]{2})\/([0-9]{2})\s*[|\u3163]\s*[0-9?:-]*\s*\[*(\w+)\]*\s*(.*)$/u
     );
     if (eventWithDateMatch) {
       const date =
@@ -159,7 +165,7 @@ function getEventSchedules(rawSchedule: string): Schedule {
 
     // Add event that matches previous date.
     const eventWithPreviousDateMatch = line.match(
-      /^\^\s*[|ㅣ]\s*[0-9?:-]*\s*\[*(\w+)\]*\s*(.*)$/
+      /^\^\s*[|\u3163]\s*[0-9?:-]*\s*\[*(\w+)\]*\s*(.*)$/u
     );
     if (eventWithPreviousDateMatch) {
       const event = createEvent(
@@ -185,14 +191,21 @@ function addToMap<K, V>(map: Map<K, V[]>, key: K, toAdd: V) {
   }
 }
 
-function getEventNameFromMap(map: Schedule, key: string): string {
+function getEventNameFromMap(map: Schedule, key: string): EventNameOrResult {
   const value = map.get(key);
   if (value) {
     if (value.length === 1) {
-      return value[0].name;
+      return {name: value[0].name};
     } else {
-      return 'multiple events';
+      return EventResult.MULTIPLE_EVENTS_FOUND;
     }
   }
-  return 'unknown event';
+  return EventResult.NO_EVENT_FOUND;
 }
+
+enum EventResult {
+  NO_EVENT_FOUND = 'unknown event',
+  MULTIPLE_EVENTS_FOUND = 'multiple events'
+}
+
+type EventNameOrResult = {name: string} | EventResult;

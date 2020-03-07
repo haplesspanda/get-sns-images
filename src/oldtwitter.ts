@@ -30,7 +30,7 @@ import {Schedule, StructuredItem} from './types';
       const tweetTextElement = streamItem.querySelector('p.tweet-text');
       const date = extractDate(tweetTextElement);
 
-      return {imageUrls, tweetUrl, streamItem, date};
+      return {imageUrls, tweetUrl, streamItem, date: {date, fromContent: true}};
     });
 
     structuredItems.forEach(structuredItem => {

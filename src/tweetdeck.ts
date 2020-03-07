@@ -48,14 +48,14 @@ import {Schedule, StructuredItem} from './types';
       const tweetUrl = timeLinkElement?.getAttribute('href') ?? null;
 
       const tweetTextElement = streamItem.querySelector('p.tweet-text');
-      let date = extractDate(tweetTextElement);
+      let date = {date: extractDate(tweetTextElement), fromContent: true};
 
       // Fallback to date on tweet
       const timeElement = streamItem.querySelector('time');
-      if (!date && timeElement) {
+      if (!date.date && timeElement) {
         const time = timeElement.getAttribute('datetime');
         if (time) {
-          date = formatDate(time);
+          date = {date: formatDate(time), fromContent: false};
         }
       }
       return {imageUrls, tweetUrl, streamItem, date};

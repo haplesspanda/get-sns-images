@@ -38,7 +38,7 @@ import {Schedule} from './types';
       title;
     if (!hasTextArea(textareaParent)) {
       const textArea = createTextArea(
-        formattedDate,
+        {date: formattedDate, fromContent: true},
         currentUrl,
         srcs,
         schedule,

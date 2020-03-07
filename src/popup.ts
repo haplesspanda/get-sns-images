@@ -1,4 +1,3 @@
-import {RAW_SCHEDULE_KEY} from './common';
 import {PageType, Message} from './types';
 
 interface ButtonSpec {
@@ -7,8 +6,6 @@ interface ButtonSpec {
   name: PageType;
   text: string;
 }
-
-const scheduleTextAreaSelector = 'textarea#schedule-textarea';
 
 const BUTTONS: ButtonSpec[] = [
   {
@@ -82,13 +79,9 @@ function showAutodetectedOption(button: ButtonSpec) {
     'see-all-options'
   )!;
   decorateFakeButton(seeAllOptions, showAllOptions);
-  const editSchedule: HTMLElement = document.getElementById('edit-schedule')!;
-  decorateFakeButton(editSchedule, showEditScheduleSection);
 
   document.getElementById('autodetect')!.style.display = 'block';
   document.getElementById('all-options')!.style.display = 'none';
-  document.getElementById('edit-schedule')!.style.display = 'block';
-  document.getElementById('edit-schedule-section')!.style.display = 'none';
 }
 
 function showAllOptions() {
@@ -100,58 +93,8 @@ function showAllOptions() {
     );
   });
 
-  const editSchedule: HTMLElement = document.getElementById('edit-schedule')!;
-  decorateFakeButton(editSchedule, showEditScheduleSection);
-
   document.getElementById('all-options')!.style.display = 'block';
   document.getElementById('autodetect')!.style.display = 'none';
-  document.getElementById('edit-schedule')!.style.display = 'block';
-  document.getElementById('edit-schedule-section')!.style.display = 'none';
-}
-
-function showEditScheduleSection() {
-  chrome.storage.local.get(RAW_SCHEDULE_KEY, value => {
-    const scheduleTextArea: HTMLTextAreaElement | null = document.querySelector(
-      scheduleTextAreaSelector
-    );
-    const rawScheduleValue = value[RAW_SCHEDULE_KEY];
-    if (scheduleTextArea && rawScheduleValue) {
-      scheduleTextArea.value = rawScheduleValue;
-    }
-  });
-
-  document.getElementById('cancel-schedule-button')!.onclick = () => {
-    // TODO: Go back to autodetect mode if we came from there
-    showAllOptions();
-  };
-
-  document.getElementById('save-schedule-button')!.onclick = () => {
-    const scheduleTextArea: HTMLTextAreaElement | null = document.querySelector(
-      scheduleTextAreaSelector
-    );
-    const scheduleValue = scheduleTextArea?.value;
-
-    const callback = () => {
-      // TODO: Go back to autodetect mode if we came from there
-      showAllOptions();
-    };
-
-    if (scheduleValue) {
-      chrome.storage.local.set(
-        {
-          [RAW_SCHEDULE_KEY]: scheduleValue
-        },
-        callback
-      );
-    } else {
-      chrome.storage.local.clear(callback);
-    }
-  };
-
-  document.getElementById('all-options')!.style.display = 'none';
-  document.getElementById('autodetect')!.style.display = 'none';
-  document.getElementById('edit-schedule')!.style.display = 'none';
-  document.getElementById('edit-schedule-section')!.style.display = 'block';
 }
 
 chrome.tabs.executeScript({file: 'dist/autodetect.js'});
