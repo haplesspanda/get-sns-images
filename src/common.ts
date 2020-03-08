@@ -5,6 +5,13 @@ const textAreaSelector = `textarea.${textAreaClass}`;
 
 export const RAW_SCHEDULE_KEY = 'rawSchedule';
 
+type TextAreaData = {
+  date: string;
+  url: string;
+  imageUrls: string[];
+  eventName?: string;
+};
+
 export function createTextArea(
   date: {date: string | null; fromContent: boolean},
   url: string | null,
@@ -18,18 +25,45 @@ export function createTextArea(
   const eventNameResult =
     schedule && date.fromContent && getEventNameFromMap(schedule, renderedDate);
 
-  let result = '';
+  let eventName = undefined;
+  let selectValues = undefined;
   if (
     eventNameResult &&
-    eventNameResult !== EventResult.NO_EVENT_FOUND &&
-    eventNameResult !== EventResult.MULTIPLE_EVENTS_FOUND
+    eventNameResult.result === EventResult.SINGLE_EVENT_FOUND
   ) {
-    result += `\`${renderedDate}\` **${eventNameResult.name}**\n<${renderedUrl}>\n`;
-  } else {
-    // TODO: Do something better in multiple events case
-    result += `\`${renderedDate}\`\n<${renderedUrl}>\n`;
+    eventName = eventNameResult.eventName;
+  } else if (
+    eventNameResult &&
+    eventNameResult.result === EventResult.MULTIPLE_EVENTS_FOUND
+  ) {
+    selectValues = eventNameResult.eventNames;
   }
-  imageUrls.forEach((imageUrl, index) => {
+
+  const textAreaData = {
+    date: renderedDate,
+    url: renderedUrl,
+    imageUrls,
+    eventName
+  };
+
+  return createTextAreaElements(
+    textAreaData,
+    imageUrls,
+    opt_height,
+    selectValues
+  );
+}
+
+function formatTextAreaValue(data: TextAreaData) {
+  let result = '';
+
+  if (data.eventName) {
+    result += `\`${data.date}\` **${data.eventName}**\n<${data.url}>\n`;
+  } else {
+    result += `\`${data.date}\`\n<${data.url}>\n`;
+  }
+
+  data.imageUrls.forEach((imageUrl, index) => {
     // Split into sets of 5 due to discord embed limit.
     if (index > 0 && index % 5 === 0) {
       result += '\n^\n';
@@ -38,6 +72,15 @@ export function createTextArea(
     result += imageUrl + '\n';
   });
 
+  return result;
+}
+
+function createTextAreaElements(
+  textAreaData: TextAreaData,
+  imageUrls: string[],
+  opt_height?: string,
+  opt_selectValues?: string[]
+) {
   const textAreaContainer = document.createElement('div');
   textAreaContainer.style.width = '100%';
   textAreaContainer.style.border = '3px solid red';
@@ -48,8 +91,8 @@ export function createTextArea(
   textArea.style.display = 'block';
   textArea.style.width = '100%';
   textArea.style.boxSizing = 'border-box';
-  textArea.value = result;
   textArea.style.height = opt_height ?? '100px';
+  textArea.value = formatTextAreaValue(textAreaData);
 
   textAreaContainer.appendChild(textArea);
 
@@ -73,6 +116,41 @@ export function createTextArea(
     document.execCommand('copy');
   });
   buttonContainer.appendChild(copyButton);
+
+  if (opt_selectValues) {
+    const eventNameSelectContainer = document.createElement('div');
+    eventNameSelectContainer.style.flex = '1';
+    eventNameSelectContainer.style.display = 'flex';
+    eventNameSelectContainer.style.flexDirection = 'column';
+    eventNameSelectContainer.style.minWidth = '0';
+
+    const eventNameSelect = document.createElement('select');
+    const noEventOption = document.createElement('option');
+    const noEventSelectedText = 'no event selected';
+    noEventOption.innerText = noEventSelectedText;
+    eventNameSelect.appendChild(noEventOption);
+    eventNameSelectContainer.appendChild(eventNameSelect);
+
+    opt_selectValues.forEach(eventName => {
+      const option = document.createElement('option');
+      option.innerText = eventName;
+      eventNameSelect.appendChild(option);
+    });
+
+    const copyWithEventButton = createButton('Copy with event', () => {
+      textArea.value = formatTextAreaValue({
+        ...textAreaData,
+        eventName:
+          eventNameSelect.value === noEventSelectedText
+            ? undefined
+            : eventNameSelect.value
+      });
+      textArea.select();
+      document.execCommand('copy');
+    });
+    eventNameSelectContainer.appendChild(copyWithEventButton);
+    buttonContainer.appendChild(eventNameSelectContainer);
+  }
 
   const openAllButtonText =
     imageUrls.length > 5 ? `Open all (${imageUrls.length})` : 'Open all';
@@ -191,21 +269,43 @@ function addToMap<K, V>(map: Map<K, V[]>, key: K, toAdd: V) {
   }
 }
 
-function getEventNameFromMap(map: Schedule, key: string): EventNameOrResult {
+function getEventNameFromMap(map: Schedule, key: string): EventNameResult {
   const value = map.get(key);
   if (value) {
     if (value.length === 1) {
-      return {name: value[0].name};
+      return {result: EventResult.SINGLE_EVENT_FOUND, eventName: value[0].name};
     } else {
-      return EventResult.MULTIPLE_EVENTS_FOUND;
+      return {
+        result: EventResult.MULTIPLE_EVENTS_FOUND,
+        eventNames: value.map(event => event.name)
+      };
     }
   }
-  return EventResult.NO_EVENT_FOUND;
+  return {result: EventResult.NO_EVENT_FOUND};
 }
 
 enum EventResult {
   NO_EVENT_FOUND = 'unknown event',
+  SINGLE_EVENT_FOUND = 'single event',
   MULTIPLE_EVENTS_FOUND = 'multiple events'
 }
 
-type EventNameOrResult = {name: string} | EventResult;
+type MultipleEventResult = {
+  result: EventResult.MULTIPLE_EVENTS_FOUND;
+  eventNames: string[];
+  eventName?: never;
+};
+
+type SingleEventResult = {
+  result: EventResult.SINGLE_EVENT_FOUND;
+  eventNames?: never;
+  eventName: string;
+};
+
+type NoEventResult = {
+  result: EventResult.NO_EVENT_FOUND;
+  eventNames?: never;
+  eventName?: never;
+};
+
+type EventNameResult = NoEventResult | SingleEventResult | MultipleEventResult;
