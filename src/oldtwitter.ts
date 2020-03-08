@@ -1,43 +1,52 @@
-import {createTextArea, extractDate, hasTextArea} from './common';
-import {StructuredItem} from './types';
+import {
+  createTextArea,
+  extractDate,
+  hasTextArea,
+  injectSchedule
+} from './common';
+import {Schedule, StructuredItem} from './types';
 
 (function oldTwitterExecFn() {
-  const tweetContainers: HTMLElement[] = Array.from(
-    document.querySelectorAll('.permalink-tweet-container')
-  );
-  const streamItems: HTMLElement[] = Array.from(
-    document.querySelectorAll('li.stream-item')
-  );
-  const allTweets = tweetContainers.concat(streamItems);
-
-  const structuredItems: StructuredItem[] = allTweets.map(streamItem => {
-    const images = streamItem.querySelectorAll('.js-adaptive-photo img');
-    const imageUrls = Array.from(images).map(
-      image => image.getAttribute('src') + ':orig'
+  function execWithSchedule(schedule: Schedule | undefined) {
+    const tweetContainers: HTMLElement[] = Array.from(
+      document.querySelectorAll('.permalink-tweet-container')
     );
+    const streamItems: HTMLElement[] = Array.from(
+      document.querySelectorAll('li.stream-item')
+    );
+    const allTweets = tweetContainers.concat(streamItems);
 
-    const tweetElement = streamItem.querySelector('div.tweet');
-    const permalinkPath = tweetElement?.getAttribute('data-permalink-path');
-    const urlToTweet = `https://twitter.com${permalinkPath}`;
-    const tweetUrl = urlToTweet;
-
-    const tweetTextElement = streamItem.querySelector('p.tweet-text');
-    const date = extractDate(tweetTextElement);
-
-    return {imageUrls, tweetUrl, streamItem, date};
-  });
-
-  structuredItems.forEach(structuredItem => {
-    if (
-      !hasTextArea(structuredItem.streamItem) &&
-      structuredItem.imageUrls.length > 0
-    ) {
-      const textArea = createTextArea(
-        structuredItem.date,
-        structuredItem.tweetUrl,
-        structuredItem.imageUrls
+    const structuredItems: StructuredItem[] = allTweets.map(streamItem => {
+      const images = streamItem.querySelectorAll('.js-adaptive-photo img');
+      const imageUrls = Array.from(images).map(
+        image => image.getAttribute('src') + ':orig'
       );
-      structuredItem.streamItem.appendChild(textArea);
-    }
-  });
+
+      const tweetElement = streamItem.querySelector('div.tweet');
+      const permalinkPath = tweetElement?.getAttribute('data-permalink-path');
+      const urlToTweet = `https://twitter.com${permalinkPath}`;
+      const tweetUrl = urlToTweet;
+
+      const tweetTextElement = streamItem.querySelector('p.tweet-text');
+      const date = extractDate(tweetTextElement);
+
+      return {imageUrls, tweetUrl, streamItem, date: {date, fromContent: true}};
+    });
+
+    structuredItems.forEach(structuredItem => {
+      if (
+        !hasTextArea(structuredItem.streamItem) &&
+        structuredItem.imageUrls.length > 0
+      ) {
+        const textArea = createTextArea(
+          structuredItem.date,
+          structuredItem.tweetUrl,
+          structuredItem.imageUrls,
+          schedule
+        );
+        structuredItem.streamItem.appendChild(textArea);
+      }
+    });
+  }
+  injectSchedule(execWithSchedule);
 })();

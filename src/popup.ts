@@ -48,9 +48,24 @@ const BUTTONS: ButtonSpec[] = [
 
 function decorateButton(button: HTMLButtonElement, file: string, text: string) {
   button.innerText = text;
-  button.onclick = function() {
+  button.onclick = () => {
     chrome.tabs.executeScript({file});
   };
+}
+
+function decorateFakeButton(fakeButton: HTMLElement, handler: () => void) {
+  const handlerWrapper = (event: MouseEvent | KeyboardEvent) => {
+    if (
+      event.type === 'click' ||
+      (event instanceof KeyboardEvent &&
+        (event.key === ' ' || event.key === 'Enter'))
+    ) {
+      handler();
+    }
+  };
+
+  fakeButton.onclick = handlerWrapper;
+  fakeButton.onkeypress = handlerWrapper;
 }
 
 function showAutodetectedOption(button: ButtonSpec) {
@@ -63,19 +78,9 @@ function showAutodetectedOption(button: ButtonSpec) {
   const seeAllOptions: HTMLElement = document.getElementById(
     'see-all-options'
   )!;
-  const handler = (event: MouseEvent | KeyboardEvent) => {
-    if (
-      event.type === 'click' ||
-      (event instanceof KeyboardEvent &&
-        (event.key === ' ' || event.key === 'Enter'))
-    ) {
-      showAllOptions();
-    }
-  };
-  seeAllOptions.onclick = handler;
-  seeAllOptions.onkeypress = handler;
+  decorateFakeButton(seeAllOptions, showAllOptions);
 
-  document.getElementById('autodetect')!.style.display = 'initial';
+  document.getElementById('autodetect')!.style.display = 'block';
   document.getElementById('all-options')!.style.display = 'none';
 }
 
@@ -87,7 +92,8 @@ function showAllOptions() {
       button.text
     );
   });
-  document.getElementById('all-options')!.style.display = 'initial';
+
+  document.getElementById('all-options')!.style.display = 'block';
   document.getElementById('autodetect')!.style.display = 'none';
 }
 

@@ -10,7 +10,8 @@ module.exports = {
     autodetect: './src/autodetect.ts',
     popup: './src/popup.ts',
     background: './src/background.ts',
-    naverpost: './src/naverpost.ts'
+    naverpost: './src/naverpost.ts',
+    settings: './src/settings.ts'
   },
   module: {
     rules: [

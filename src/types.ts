@@ -23,6 +23,14 @@ export type Message = AutodetectMessage | OpenTabsMessage;
 export interface StructuredItem {
   imageUrls: string[];
   tweetUrl: string | null;
-  date: string | null;
+  date: {date: string | null; fromContent: boolean};
   streamItem: HTMLElement;
 }
+
+export interface ScheduleEvent {
+  date: string;
+  type: string;
+  name: string;
+}
+
+export type Schedule = Map<string, ScheduleEvent[]>;
