@@ -35,7 +35,7 @@ import {Schedule} from './types';
       const previousButton = previousButtonIcon?.parentElement;
       if (previousButton) {
         previousButton.click();
-        setTimeout(goToStart, 0);
+        setTimeout(goToStart, 10);
       } else {
         appendImagesAndAdvance();
       }
