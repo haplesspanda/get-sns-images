@@ -9,16 +9,10 @@ interface ButtonSpec {
 
 const BUTTONS: ButtonSpec[] = [
   {
-    buttonId: 'old-twitter-button',
-    file: 'dist/oldtwitter.js',
-    name: 'oldtwitter',
-    text: 'Old Twitter'
-  },
-  {
-    buttonId: 'new-twitter-button',
-    file: 'dist/newtwitter.js',
-    name: 'newtwitter',
-    text: 'New Twitter'
+    buttonId: 'twitter-button',
+    file: 'dist/twitter.js',
+    name: 'twitter',
+    text: 'Twitter'
   },
   {
     buttonId: 'tweetdeck-button',

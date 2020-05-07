@@ -10,7 +10,7 @@ import {Schedule, StructuredItem} from './types';
 const photoLinkSelector = 'a[href*="/photo/"]';
 const innerImageSelector = 'div[aria-label="Image"] img';
 
-(function newTwitterExecFn() {
+(function twitterExecFn() {
   function execWithSchedule(schedule: Schedule | undefined) {
     function addLinksToPage() {
       const streamItems = Array.from(document.querySelectorAll('article'));
@@ -21,7 +21,7 @@ const innerImageSelector = 'div[aria-label="Image"] img';
       );
 
       const structuredItems: StructuredItem[] = actualTweets.map(streamItem => {
-        // New twitter w/ 4 links has images out of order in the DOM. Sort by URL which has 1/2/3/4.
+        // Twitter w/ 4 links has images out of order in the DOM. Sort by URL which has 1/2/3/4.
         const imageLinks: HTMLLinkElement[] = Array.from(
           streamItem.querySelectorAll(photoLinkSelector)
         );

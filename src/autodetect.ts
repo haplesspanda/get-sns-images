@@ -16,11 +16,7 @@ import {Message, PageType} from './types';
     }
 
     if (location.host.endsWith('twitter.com')) {
-      if (!!document.querySelector('article')) {
-        return 'newtwitter';
-      } else if (!!document.querySelector('.stream-item')) {
-        return 'oldtwitter';
-      }
+      return 'twitter';
     }
 
     // TODO: Try to autodetect tistory too

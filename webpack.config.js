@@ -2,8 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    oldtwitter: './src/oldtwitter.ts',
-    newtwitter: './src/newtwitter.ts',
+    twitter: './src/twitter.ts',
     instagram: './src/instagram.ts',
     tistory: './src/tistory.ts',
     tweetdeck: './src/tweetdeck.ts',

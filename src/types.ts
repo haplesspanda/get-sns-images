@@ -1,6 +1,5 @@
 export type PageType =
-  | 'oldtwitter'
-  | 'newtwitter'
+  | 'twitter'
   | 'instagram'
   | 'tweetdeck'
   | 'tistory'
