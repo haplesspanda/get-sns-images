@@ -12,32 +12,38 @@ const BUTTONS: ButtonSpec[] = [
     buttonId: 'twitter-button',
     file: 'dist/twitter.js',
     name: 'twitter',
-    text: 'Twitter'
+    text: 'Twitter',
   },
   {
     buttonId: 'tweetdeck-button',
     file: 'dist/tweetdeck.js',
     name: 'tweetdeck',
-    text: 'TweetDeck'
+    text: 'TweetDeck',
   },
   {
     buttonId: 'instagram-button',
     file: 'dist/instagram.js',
     name: 'instagram',
-    text: 'Instagram'
+    text: 'Instagram',
   },
   {
     buttonId: 'tistory-button',
     file: 'dist/tistory.js',
     name: 'tistory',
-    text: 'Tistory'
+    text: 'Tistory',
   },
   {
     buttonId: 'naver-post-button',
     file: 'dist/naverpost.js',
     name: 'naverpost',
-    text: 'Naver Post'
-  }
+    text: 'Naver Post',
+  },
+  {
+    buttonId: 'weibo-button',
+    file: 'dist/weibo.js',
+    name: 'weibo',
+    text: 'Weibo',
+  },
 ];
 
 function decorateButton(button: HTMLButtonElement, file: string, text: string) {

@@ -19,6 +19,10 @@ import {Message, PageType} from './types';
       return 'twitter';
     }
 
+    if (location.host.endsWith('weibo.com')) {
+      return 'weibo';
+    }
+
     // TODO: Try to autodetect tistory too
 
     return 'unknown';

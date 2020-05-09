@@ -10,7 +10,8 @@ module.exports = {
     popup: './src/popup.ts',
     background: './src/background.ts',
     naverpost: './src/naverpost.ts',
-    settings: './src/settings.ts'
+    settings: './src/settings.ts',
+    weibo: './src/weibo.ts'
   },
   module: {
     rules: [

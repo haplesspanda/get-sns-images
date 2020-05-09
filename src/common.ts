@@ -43,7 +43,7 @@ export function createTextArea(
     date: renderedDate,
     url: renderedUrl,
     imageUrls,
-    eventName
+    eventName,
   };
 
   return createTextAreaElements(
@@ -143,7 +143,7 @@ function createTextAreaElements(
         eventName:
           eventNameSelect.value === noEventSelectedText
             ? undefined
-            : eventNameSelect.value
+            : eventNameSelect.value,
       });
       textArea.select();
       document.execCommand('copy');
@@ -175,12 +175,12 @@ export function extractDate(element: Element | null): string | null {
     : null;
 }
 
-export function formatDate(datetime: string): string {
+export function formatDate(datetime: number | string): string {
   const dateString = new Date(datetime).toLocaleDateString('ko', {
     timeZone: 'Asia/Seoul',
     year: '2-digit',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
   });
   const formattedDateString = dateString.replace(/(\.|\s)/g, '');
   return formattedDateString;
@@ -277,7 +277,7 @@ function getEventNameFromMap(map: Schedule, key: string): EventNameResult {
     } else {
       return {
         result: EventResult.MULTIPLE_EVENTS_FOUND,
-        eventNames: value.map(event => event.name)
+        eventNames: value.map(event => event.name),
       };
     }
   }
@@ -287,7 +287,7 @@ function getEventNameFromMap(map: Schedule, key: string): EventNameResult {
 enum EventResult {
   NO_EVENT_FOUND = 'unknown event',
   SINGLE_EVENT_FOUND = 'single event',
-  MULTIPLE_EVENTS_FOUND = 'multiple events'
+  MULTIPLE_EVENTS_FOUND = 'multiple events',
 }
 
 type MultipleEventResult = {
