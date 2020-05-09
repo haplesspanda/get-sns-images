@@ -11,6 +11,7 @@ import {Schedule} from './types';
     const feedItems = Array.from(document.querySelectorAll('.WB_feed_detail'));
 
     feedItems.forEach(feedItem => {
+      // Handles both profile page and specific post page.
       const images = Array.from(
         feedItem.querySelectorAll('li.S_line2 img')
       ).concat(Array.from(feedItem.querySelectorAll('li img.S-line2')));
