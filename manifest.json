@@ -1,6 +1,6 @@
 {
   "name": "Get SNS Images for KPOP Discord",
-  "version": "0.0.1.2",
+  "version": "0.0.1.3",
   "description": "Easily get images from Twitter, Instagram, Tistory, Naver, and Weibo",
   "manifest_version": 2,
   "permissions": ["activeTab", "storage"],

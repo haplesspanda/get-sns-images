@@ -3,7 +3,7 @@ import {
   extractDate,
   formatDate,
   hasTextArea,
-  injectSchedule
+  injectSchedule,
 } from './common';
 import {Schedule, StructuredItem} from './types';
 
@@ -20,7 +20,8 @@ import {Schedule, StructuredItem} from './types';
         const backgroundImage = image.style.backgroundImage;
         return (
           backgroundImage.includes('/media/') ||
-          backgroundImage.includes('ext_tw_video_thumb')
+          backgroundImage.includes('ext_tw_video_thumb') ||
+          backgroundImage.includes('amplify_video_thumb')
         );
       });
       let imageUrls = filteredImages.map(image => {
