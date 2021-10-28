@@ -17,7 +17,8 @@ export function createTextArea(
   url: string | null,
   imageUrls: string[],
   schedule: Schedule | undefined,
-  opt_height?: string
+  opt_height?: string,
+  opt_flexOrder?: string
 ): HTMLElement {
   const renderedDate = date.date ?? 'unknown date';
   const renderedUrl = url ?? 'unknown url';
@@ -50,6 +51,7 @@ export function createTextArea(
     textAreaData,
     imageUrls,
     opt_height,
+    opt_flexOrder,
     selectValues
   );
 }
@@ -79,12 +81,16 @@ function createTextAreaElements(
   textAreaData: TextAreaData,
   imageUrls: string[],
   opt_height?: string,
+  opt_flexOrder?: string,
   opt_selectValues?: string[]
 ) {
   const textAreaContainer = document.createElement('div');
   textAreaContainer.style.width = '100%';
   textAreaContainer.style.border = '3px solid red';
   textAreaContainer.style.boxSizing = 'border-box';
+  if (opt_flexOrder != null) {
+    textAreaContainer.style.order = opt_flexOrder;
+  }
 
   const textArea = document.createElement('textarea');
   textArea.classList.add(textAreaClass);

@@ -33,16 +33,27 @@ import {Schedule} from './types';
         return result;
       }
 
-      const article =
-        document.querySelector('div[role="dialog"] article') ??
-        document.querySelector('main[role="main"] article');
+      const dialogArticle = document.querySelector(
+        'div[role="dialog"] article'
+      );
+      const mainArticle = document.querySelector('main[role="main"] article');
 
+      const article = dialogArticle ?? mainArticle;
       if (!article) {
         return;
       }
 
-      const dialogArticle = article.parentElement;
-      const context = dialogArticle ?? document;
+      const isDialogContext = dialogArticle != null;
+
+      const articleParent = article.parentElement;
+      const context = articleParent ?? document;
+
+      // Dialog context doesn't let us append below the dialog and still interact with buttons.
+      // Need to add to the right pane of the dialog instead.
+      const textAreaTarget =
+        (isDialogContext
+          ? article.querySelector('section')?.parentElement
+          : context) ?? document;
 
       const timeElement = article.querySelector('a time');
       const time = timeElement?.getAttribute('datetime');
@@ -95,15 +106,16 @@ import {Schedule} from './types';
           setTimeout(appendImagesAndAdvance, 10);
         } else {
           // No more images - add textarea.
-          if (!hasTextArea(context)) {
+          if (!hasTextArea(textAreaTarget)) {
             const textArea = createTextArea(
               {date: formattedDateString, fromContent: false},
               permalink,
               srcs,
               schedule,
-              '300px'
+              '300px',
+              '1000' // Absurdly-high flex order to appear at the bottom of right pane.
             );
-            context.appendChild(textArea);
+            textAreaTarget.appendChild(textArea);
           }
         }
       }
