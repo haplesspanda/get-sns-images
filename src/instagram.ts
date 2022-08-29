@@ -66,7 +66,7 @@ import {Schedule} from './types';
 
     function appendImagesAndAdvance() {
       const images: HTMLImageElement[] = Array.from(
-        context.querySelectorAll('img[srcset]')
+        context.querySelectorAll('li[tabIndex] img')
       );
       const newSrcs = images.map(image => image.src);
       newSrcs.forEach(newSrc => {
