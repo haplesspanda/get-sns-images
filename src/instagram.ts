@@ -66,9 +66,11 @@ import {Schedule} from './types';
 
     function appendImagesAndAdvance() {
       const images: HTMLImageElement[] = Array.from(
-        context.querySelectorAll('li[tabIndex] img')
+        context.querySelectorAll('div[tabIndex] img')
       );
-      const newSrcs = images.map(image => image.src);
+      const newSrcs = images
+        .filter(element => element.style.objectFit === 'cover')
+        .map(image => image.src);
       newSrcs.forEach(newSrc => {
         if (newSrc && !srcs.includes(newSrc)) {
           srcs.push(newSrc);
